@@ -1,14 +1,12 @@
 import { useState, useContext } from 'react';
-import {
-  View, Text, TextInput, FlatList, ActivityIndicator, StyleSheet,
-} from 'react-native';
-import { AppContexto } from '../contextos/AppContexto';
+import {   View, Text, TextInput, FlatList, ActivityIndicator, StyleSheet, } from 'react-native';
 import { useEventos } from '../contextos/EventosContexto';
 import { useInscricoes } from '../contextos/InscricoesContexto';
 import CartaoEvento from '../componentes/CartaoEvento';
+import { useTema } from '../contextos/TemaContexto';
 
 export default function TelaEventos({ navigation }) {
-  const { temaEscuro } = useContext(AppContexto);
+  const { temaEscuro } = useTema();
   const { status, eventos, erro } = useEventos();
   const { ids, inscrever } = useInscricoes();
 
