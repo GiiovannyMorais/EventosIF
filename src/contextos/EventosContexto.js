@@ -10,9 +10,14 @@ export function EventosProvedor({ children }) {
     dispatch({ type: 'CARREGANDO' });
     fetch('https://api.campus.iftm.edu.br/eventos')
       .then((r) => r.json())
-      .then((dados) => dispatch({ type: 'SUCESSO', eventos: dados }))
-      .catch((e) => dispatch({ type: 'FALHA', erro: e.message }));
-  }, []);
+      .then((dados) => dispatch({ type: 'SUCESSO', eventos: dados }))      
+      .catch((e) => {
+         if (e.name === 'AbortError') return;
+         dispatch({ type: 'FALHA', erro: e.message });
+  }) ;
+
+   return () => controlador.abort();
+}, []);
 
   const value = useMemo(() => estado, [estado]);
 
