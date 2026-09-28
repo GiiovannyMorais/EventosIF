@@ -15,10 +15,8 @@
     const [enviado, setEnviado] = useState(false);
    
     const [busca, setBusca] = useState('');
-    const [eventosFiltrados, setEventosFiltrados] = useState([]);
    
     const [inscricoes, setInscricoes] = useState([]);
-    const [totalInscricoes, setTotalInscricoes] = useState(0);
     const [eventoSelecionado, setEventoSelecionado] = useState(null);
    
     useEffect(() => {
@@ -33,17 +31,10 @@
         });
     }, []);
    
-    useEffect(() => {
-      setEventosFiltrados(
-        eventos.filter((ev) =>
-          ev.titulo.toLowerCase().includes(busca.toLowerCase())
-        )
-      );
-    }, [busca, eventos]);
-   
-    useEffect(() => {
-      setTotalInscricoes(inscricoes.length);
-    }, [inscricoes]);
+    const eventosFiltrados = eventos.filter((ev) =>
+  ev.titulo.toLowerCase().includes(busca.toLowerCase())
+    );
+const totalInscricoes = inscricoes.length;
    
     function inscrever(evento) {
       inscricoes.push(evento);
