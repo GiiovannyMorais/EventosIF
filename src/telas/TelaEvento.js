@@ -37,11 +37,12 @@
 const totalInscricoes = inscricoes.length;
    
     function inscrever(evento) {
-      inscricoes.push(evento);
-      setInscricoes(inscricoes);
-      setEventoSelecionado(evento);
-      setEnviado(true);
-    }
+  setInscricoes((atuais) =>
+    atuais.some((i) => i.id === evento.id) ? atuais : [...atuais, evento]
+  );
+  setEventoSelecionado(evento);
+  setEnviado(true);
+}
    
     console.log('[render] TelaEventos');
    
