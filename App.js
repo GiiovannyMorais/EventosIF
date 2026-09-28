@@ -1,6 +1,7 @@
   import { NavigationContainer } from '@react-navigation/native';
   import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
   import { AppProvedor } from './src/contextos/AppContexto';
+  import { EventosProvedor } from './src/contextos/EventosContexto';
   import TelaEventos from './src/telas/TelaEventos';
   import TelaDetalheEvento from './src/telas/TelaDetalheEvento';
   import TelaMinhasInscricoes from './src/telas/TelaMinhasInscricoes';
