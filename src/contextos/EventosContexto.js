@@ -1,25 +1,25 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useContext, useEffect, useMemo, useReducer } from 'react';
+import { eventosReducer, estadoInicial } from '../reducers/eventosReducer';
 
 const EventosContexto = createContext(null);
 
 export function EventosProvedor({ children }) {
-  const [eventos, setEventos] = useState([]);
-  const [carregando, setCarregando] = useState(true);
-  const [erro, setErro] = useState(null);
+  const [estado, dispatch] = useReducer(eventosReducer, estadoInicial);
 
   useEffect(() => {
+    dispatch({ type: 'CARREGANDO' });
     fetch('https://api.campus.iftm.edu.br/eventos')
       .then((r) => r.json())
-      .then((dados) => { setEventos(dados); setCarregando(false); })
-      .catch((e) => setErro(e.message));
+      .then((dados) => dispatch({ type: 'SUCESSO', eventos: dados }))
+      .catch((e) => dispatch({ type: 'FALHA', erro: e.message }));
   }, []);
 
-  const value = useMemo(
-    () => ({ eventos, carregando, erro }),
-    [eventos, carregando, erro]
-  );
+  const value = useMemo(() => estado, [estado]);
+
   return (
-    <EventosContexto.Provider value={value}>{children}</EventosContexto.Provider>
+    <EventosContexto.Provider value={value}>
+      {children}
+    </EventosContexto.Provider>
   );
 }
 

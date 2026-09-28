@@ -8,7 +8,7 @@ import CartaoEvento from '../componentes/CartaoEvento';
 
 export default function TelaEventos({ navigation }) {
   const { temaEscuro } = useContext(AppContexto);
-  const { eventos, carregando, erro } = useEventos();
+  const { status, eventos, erro } = useEventos();
 
   const [enviado, setEnviado] = useState(false);
   const [busca, setBusca] = useState('');
@@ -39,8 +39,8 @@ export default function TelaEventos({ navigation }) {
         onChangeText={setBusca}
         placeholder="Buscar evento"
       />
-      {carregando && <ActivityIndicator size="large" />}
-      {erro && <Text style={styles.erro}>Falha: {erro}</Text>}
+      {status === 'carregando' && <ActivityIndicator size="large" />}
+      {status === 'falha' && <Text style={styles.erro}>Falha: {erro}</Text>}
       {enviado && eventoSelecionado && (
         <Text style={styles.aviso}>
           Inscrição confirmada em {eventoSelecionado.titulo}
@@ -61,3 +61,12 @@ export default function TelaEventos({ navigation }) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1, padding: 16 },
+  contador: { fontSize: 18, fontWeight: 'bold', marginBottom: 8 },
+  campo: { borderWidth: 1, borderColor: '#CCCCCC', borderRadius: 8,
+           padding: 10, marginBottom: 12 },
+  erro: { color: '#B00020', marginBottom: 8 },
+  aviso: { color: '#2E7D32', marginBottom: 8 },
+});
