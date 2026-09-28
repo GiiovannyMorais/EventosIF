@@ -4,25 +4,26 @@ import {
 } from 'react-native';
 import { AppContexto } from '../contextos/AppContexto';
 import { useEventos } from '../contextos/EventosContexto';
+import { useInscricoes } from '../contextos/InscricoesContexto';
 import CartaoEvento from '../componentes/CartaoEvento';
 
 export default function TelaEventos({ navigation }) {
   const { temaEscuro } = useContext(AppContexto);
   const { status, eventos, erro } = useEventos();
+  const { ids, inscrever } = useInscricoes();
 
   const [enviado, setEnviado] = useState(false);
   const [busca, setBusca] = useState('');
-  const [inscricoes, setInscricoes] = useState([]);
   const [eventoSelecionadoId, setEventoSelecionadoId] = useState(null);
 
   const eventosFiltrados = eventos.filter((ev) =>
     ev.titulo.toLowerCase().includes(busca.toLowerCase())
   );
-  const totalInscricoes = inscricoes.length;
+  const totalInscricoes = ids.length;
   const eventoSelecionado = eventos.find((ev) => ev.id === eventoSelecionadoId);
 
-  function inscrever(evento) {
-    setInscricoes((atuais) => [...atuais, evento]);
+  function aoInscrever(evento) {
+    inscrever(evento.id);
     setEventoSelecionadoId(evento.id);
     setEnviado(true);
   }
@@ -52,7 +53,7 @@ export default function TelaEventos({ navigation }) {
         renderItem={({ item }) => (
           <CartaoEvento
             evento={item}
-            aoInscrever={() => inscrever(item)}
+            aoInscrever={() => aoInscrever(item)}
             aoAbrir={() =>
               navigation.navigate('Detalhe', { id: item.id })}
           />
